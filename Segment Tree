@@ -18,7 +18,7 @@ class SGTree{
         seg[ind] = min (seg[2 * ind + 1], seg[2*ind + 2]);
     }
 
-    int query(int ind, int left, int right, int low, int high, vector<int> &arr){
+    int query(int ind, int left, int right, int low, int high){
         // complete overlapping 
         if(low >= left && high <= right){
             return seg[ind];
@@ -29,20 +29,20 @@ class SGTree{
         }
         // partial overlapping 
         int mid = (low + high)/2;
-        int lq = query(2 * ind+1, left, right, low, mid, arr);
-        int rq = query(2*ind+2, left, right, mid + 1, high, arr);
+        int lq = query(2 * ind+1, left, right, low, mid);
+        int rq = query(2*ind+2, left, right, mid + 1, high);
         return min(lq, rq);
     }
 
-    void update(int ind, int low, int high, int i, int val, vector<int> &arr){
+    void update(int ind, int low, int high, int i, int val){
         if(low == high){
             seg[ind] = val;
             return;
         }
                                                                     //O(logn)
         int mid = (low + high)/2;
-        if(i <= mid) update(2*ind + 1, low, mid, i, val, arr);
-        else update(2*ind + 2, mid + 1, high, i, val,arr);
+        if(i <= mid) update(2*ind + 1, low, mid, i, val);
+        else update(2*ind + 2, mid + 1, high, i, val);
         seg[ind]= min(seg[2*ind + 1], seg[2*ind + 2]);
     }
 };
